@@ -1,16 +1,21 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const userDataSchema = new mongoose.Schema({
-    name: {
+const postsDataSchema = new mongoose.Schema({
+    title: {
         type: String,
         required: true,
         unique: true,
         trim: true
     },
-    location: {
+    content: {
         type: String,
         required: true,
         trim: true
+    },
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     createdAt: {
         type: Date,
@@ -24,6 +29,6 @@ const userDataSchema = new mongoose.Schema({
     timestamps: true
 });
 
-userDataSchema.index({ name: 'text', location: 'text' });
+postsDataSchema.index({ title: 'text', content: 'text' });
 
-export default userDataSchema
+export default postsDataSchema

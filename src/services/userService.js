@@ -5,7 +5,7 @@ class UserService {
     this.userRepository = new UserRepository();
   }
 
-  async getAllUsers() {
+  async findAll() {
     const users = await this.userRepository.findAll();
     if (!users.length) {
       throw new Error("No users have been found");
@@ -13,7 +13,7 @@ class UserService {
     return users;
   }
 
-  async getUserById(id) {
+  async findById(id) {
     if (!id) {
       throw new Error("Invalid id provided");
     }
@@ -24,7 +24,7 @@ class UserService {
     return user;
   }
 
-  async createUser(user) {
+  async create(user) {
     if (!user || typeof user !== 'object' || Object.keys(user).length === 0) {
       throw new Error("Invalid user data provided");
     }
@@ -54,7 +54,7 @@ class UserService {
     }
   }
 
-  async updateUser(user) {
+  async update(user) {
     if (!user || typeof user !== 'object' || Object.keys(user).length === 0) {
       throw new Error("Invalid user data provided");
     }
@@ -63,8 +63,20 @@ class UserService {
       throw new Error("User ID is required for update");
     }
 
+    if (user.name !== undefined && (typeof user.name !== 'string' || user.name.trim() === '')) {
+      throw new Error("User name must be a non-empty string");
+    }
+
+    if (user.location !== undefined && (typeof user.location !== 'string' || user.location.trim() === '')) {
+      throw new Error("User location must be a non-empty string");
+    }
+
+    const updateData = {};
+    if (user.name) updateData.name = user.name.trim();
+    if (user.location) updateData.location = user.location.trim();
+
     try {
-      const updatedUser = await this.userRepository.update(user.id, user);
+      const updatedUser = await this.userRepository.update(user.id, updateData);
       if (!updatedUser) {
         throw new Error(`User with id ${user.id} not found`);
       }
@@ -80,17 +92,20 @@ class UserService {
     }
   }
 
-  async deleteUser(id) {
+  async delete(id) {
     if (!id) {
       throw new Error("Invalid id provided");
     }
 
-    const deletedUser = await this.userRepository.delete(id);
-    if (!deletedUser) {
-      throw new Error(`User with id ${id} not found`);
+    try {
+      const deletedUser = await this.userRepository.delete(id);
+      if (!deletedUser) {
+        throw new Error(`User with id ${id} not found`);
+      }
+      return { message: "User deleted successfully", deletedUser };
+    } catch (error) {
+      throw new Error(`Error deleting user: ${error.message}`);
     }
-
-    return { message: "User deleted successfully", deletedUser };
   }
 }
 

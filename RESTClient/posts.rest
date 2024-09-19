@@ -1,0 +1,28 @@
+GET http://localhost:3000/post/
+
+###
+GET http://localhost:3000/post/66ec780bb77c9a981ae7cb42
+
+###
+POST http://localhost:3000/post/create
+Content-Type: application/json
+
+{
+    "title": "My first post",
+    "content": "Hello World",
+    "author": "66ec75d65faca3e7b3b2eb47"
+}
+
+###
+PATCH http://localhost:3000/post/update
+Content-Type: application/json
+
+{
+    "id": "66ec780bb77c9a981ae7cb42",
+    "title": "My first post",
+    "content": "Hello World",
+    "author": "66ec75d65faca3e7b3b2eb47"   
+}
+
+###
+DELETE http://localhost:3000/post/delete/:id

@@ -1,0 +1,28 @@
+GET http://localhost:3000/user
+
+###
+
+GET http://localhost:3000/user/66ec75d65faca3e7b3b2eb47
+
+###
+POST http://localhost:3000/user/create
+Content-Type: application/json
+
+{
+    "name": "José Tavares",
+    "location": "Lisbon"
+}
+
+###
+PATCH http://localhost:3000/user/
+Content-Type: application/json
+
+{
+    "id": "66ec75d65faca3e7b3b2eb47",
+    "name": "José Tavares",
+    "location": "Lisbon"
+}
+
+###
+DELETE http://localhost:3000/user/delete/66eaf1c417fa80a7dd50135a
+

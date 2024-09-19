@@ -4,7 +4,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import myapiRoutes from "./src/controllers/userController.js";
+import userController from "./src/controllers/userController.js";
+import postController from "./src/controllers/postsController.js"
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -32,7 +33,8 @@ mongoose
   .catch((error) => console.error("Database connection error:", error));
 
 // Routes
-app.use("/user", myapiRoutes);
+app.use("/user", userController);
+app.use("/post", postController);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
