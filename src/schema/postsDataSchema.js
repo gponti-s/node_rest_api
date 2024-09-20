@@ -12,7 +12,7 @@ const postsDataSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    author: {
+    authorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true

@@ -1,20 +1,20 @@
-GET http://localhost:3000/user
+GET http://localhost:3000/api/user
 
 ###
 
-GET http://localhost:3000/user/66ec75d65faca3e7b3b2eb47
+GET http://localhost:3000/api/user/66ec75d65faca3e7b3b2eb47
 
 ###
-POST http://localhost:3000/user/create
+POST http://localhost:3000/api/user/create
 Content-Type: application/json
 
 {
-    "name": "José Tavares",
-    "location": "Lisbon"
+    "name": "Paulo Meneghel",
+    "location": "Brazil"
 }
 
 ###
-PATCH http://localhost:3000/user/
+PATCH http://localhost:3000/api/user/
 Content-Type: application/json
 
 {
@@ -24,5 +24,5 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/user/delete/66eaf1c417fa80a7dd50135a
+DELETE http://localhost:3000/api/user/delete/66ed9876cc28322741e9abf2
 

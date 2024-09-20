@@ -33,16 +33,35 @@ mongoose
   .catch((error) => console.error("Database connection error:", error));
 
 // Routes
-app.use("/user", userController);
-app.use("/post", postController);
+app.use("/api/user", userController);
+app.use("/api/post", postController);
+
+// Not found middleware
+app.use((req, res, next) => {
+  res.status(404).json({ message: "Route not found" });
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: "Something went wrong!" });
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Something went wrong!";
+  res.status(statusCode).json({ message });
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received: closing HTTP server')
+  server.close(() => {
+    console.log('HTTP server closed')
+    mongoose.connection.close(false, () => {
+      console.log('MongoDB connection closed');
+      process.exit(0);
+    });
+  });
 });
 
 // Start the server
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
 export default app;
